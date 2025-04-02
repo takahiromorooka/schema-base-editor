@@ -1,6 +1,6 @@
 import { BoxSelect, Eye, Image, Plus, Type } from 'lucide-react';
 import { nanoid } from 'nanoid';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { parse, safeParse } from 'valibot';
 import { BlockForm } from '../components/BlockForm';
@@ -15,7 +15,7 @@ import {
   pageSchema,
   parentableBlockSchema,
 } from '../schema';
-
+import { MoveableComponent } from '../components/Moveable';
 type BlockTreeItem = Block & { children?: BlockTreeItem[] };
 
 export default function Editor() {
@@ -32,7 +32,10 @@ export default function Editor() {
     }
     return { name: 'New Page', blocks: {} };
   });
-  console.log(page);
+  console.log(page)
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const queryData = useMemo(
     () => encodeURIComponent(JSON.stringify(page)),
     [page],
@@ -156,11 +159,19 @@ export default function Editor() {
         <main className="p-4 overflow-y-auto">
           <article className="bg-white p-4 min-h-full text-black flex flex-col gap-2">
             {blockTree.map((block) => (
-              <div key={block.id} className="w-full">
+              <div
+                key={block.id}
+                data-id={block.id}
+                // className="w-full"
+              >
                 <BlockRenderer block={block} />
               </div>
             ))}
           </article>
+          <MoveableComponent
+            selectedBlockId={selectedBlockId}
+            containerRef={containerRef}
+          />
         </main>
 
         <aside className="border-l border-gray-700 p-4 overflow-y-auto">
