@@ -1,13 +1,13 @@
 import {
   type InferOutput,
-  object,
-  string,
-  optional,
-  literal,
-  union,
   intersect,
+  literal,
+  object,
+  optional,
   record,
-} from "valibot";
+  string,
+  union,
+} from 'valibot';
 
 const stylesSchema = object({
   color: optional(string()),
@@ -25,7 +25,7 @@ const baseBlockSchema = object({
 const buttonBlockSchema = intersect([
   baseBlockSchema,
   object({
-    type: literal("button"),
+    type: literal('button'),
     text: string(),
     onClick: optional(string()),
   }),
@@ -34,7 +34,7 @@ const buttonBlockSchema = intersect([
 const paragraphBlockSchema = intersect([
   baseBlockSchema,
   object({
-    type: literal("paragraph"),
+    type: literal('paragraph'),
     text: string(),
   }),
 ]);
@@ -42,7 +42,7 @@ const paragraphBlockSchema = intersect([
 const imageBlockSchema = intersect([
   baseBlockSchema,
   object({
-    type: literal("image"),
+    type: literal('image'),
     src: string(),
     alt: optional(string()),
   }),
@@ -51,7 +51,7 @@ const imageBlockSchema = intersect([
 const divisionBlockSchema = intersect([
   baseBlockSchema,
   object({
-    type: literal("division"),
+    type: literal('division'),
   }),
 ]);
 
@@ -72,7 +72,7 @@ export const pageSchema = object({
 // Valibotスキーマから型を推論
 export type Page = InferOutput<typeof pageSchema>;
 export type Block = InferOutput<typeof blockSchema>;
-export type BlockType = Block["type"];
+export type BlockType = Block['type'];
 export type Button = InferOutput<typeof buttonBlockSchema>;
 export type Paragraph = InferOutput<typeof paragraphBlockSchema>;
 export type Image = InferOutput<typeof imageBlockSchema>;
@@ -81,48 +81,48 @@ export type Division = InferOutput<typeof divisionBlockSchema>;
 const newButton = (id: string, parentId?: string): Button => ({
   id,
   parentId,
-  type: "button",
-  text: "Click me",
+  type: 'button',
+  text: 'Click me',
   styles: {},
 });
 
 const newParagraph = (id: string, parentId?: string): Paragraph => ({
   id,
   parentId,
-  type: "paragraph",
-  text: "Paragraph text",
+  type: 'paragraph',
+  text: 'Paragraph text',
   styles: {},
 });
 
 const newImage = (id: string, parentId?: string): Image => ({
   id,
   parentId,
-  type: "image",
-  src: "https://via.placeholder.com/150",
-  alt: "",
+  type: 'image',
+  src: 'https://via.placeholder.com/150',
+  alt: '',
   styles: {},
 });
 
 const newDivision = (id: string, parentId?: string): Division => ({
   id,
   parentId,
-  type: "division",
+  type: 'division',
   styles: {},
 });
 
 export const newBlock = (
   type: BlockType,
   id: string,
-  parentId?: string
+  parentId?: string,
 ): Block => {
   switch (type) {
-    case "button":
+    case 'button':
       return newButton(id, parentId);
-    case "paragraph":
+    case 'paragraph':
       return newParagraph(id, parentId);
-    case "image":
+    case 'image':
       return newImage(id, parentId);
-    case "division":
+    case 'division':
       return newDivision(id, parentId);
   }
 };
@@ -146,7 +146,7 @@ export const buildHierarchy = (blocks: Block[]): BlockWithChildren[] => {
 
   // 親子構造を構築
   for (const block of blocks) {
-    const parentBlock = map.get(block.parentId ?? "");
+    const parentBlock = map.get(block.parentId ?? '');
     const childBlock = map.get(block.id);
 
     if (parentBlock && childBlock) {
@@ -157,4 +157,4 @@ export const buildHierarchy = (blocks: Block[]): BlockWithChildren[] => {
   }
 
   return result;
-}; 
+};

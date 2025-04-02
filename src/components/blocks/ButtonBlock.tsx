@@ -1,6 +1,6 @@
-import { Button } from "@/schema";
-import { FC, useRef, useEffect, useCallback } from "react";
-import { BlockProps } from "./type";
+import type { Button } from '@/schema';
+import { type FC, useCallback, useEffect, useRef } from 'react';
+import type { BlockProps } from './type';
 
 export const ButtonBlock: FC<BlockProps<Button>> = ({ block }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -10,8 +10,8 @@ export const ButtonBlock: FC<BlockProps<Button>> = ({ block }) => {
 
     if (iframeWindow) {
       iframeWindow.postMessage(
-        { type: "LOAD_SCRIPT", script: block.onClick },
-        "*"
+        { type: 'LOAD_SCRIPT', script: block.onClick },
+        '*',
       );
     }
   }, [iframeRef.current, block.onClick]);
@@ -19,7 +19,7 @@ export const ButtonBlock: FC<BlockProps<Button>> = ({ block }) => {
   const handleClick = useCallback(() => {
     const iframeWindow = iframeRef.current?.contentWindow;
     if (iframeWindow) {
-      iframeWindow.postMessage({ type: "EXECUTE_SCRIPT" }, "*");
+      iframeWindow.postMessage({ type: 'EXECUTE_SCRIPT' }, '*');
     }
   }, []);
 
@@ -37,7 +37,7 @@ export const ButtonBlock: FC<BlockProps<Button>> = ({ block }) => {
       <iframe
         ref={iframeRef}
         sandbox="allow-scripts allow-modals"
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         title="sandbox"
         srcDoc={`
           <script>
@@ -59,4 +59,4 @@ export const ButtonBlock: FC<BlockProps<Button>> = ({ block }) => {
       ></iframe>
     </div>
   );
-}; 
+};

@@ -1,7 +1,7 @@
-import type { FC, PropsWithChildren } from "react";
-import type { Paragraph, Image, Division, BlockWithChildren } from "../schema";
-import { ButtonBlock } from "./blocks/ButtonBlock";
-import { BlockProps } from "./blocks/type";
+import type { FC, PropsWithChildren } from 'react';
+import type { BlockWithChildren, Division, Image, Paragraph } from '../schema';
+import { ButtonBlock } from './blocks/ButtonBlock';
+import type { BlockProps } from './blocks/type';
 
 const ParagraphBlock: FC<BlockProps<Paragraph>> = ({ block }) => (
   <p style={block.styles}>{block.text}</p>
@@ -10,7 +10,7 @@ const ParagraphBlock: FC<BlockProps<Paragraph>> = ({ block }) => (
 const ImageBlock: FC<BlockProps<Image>> = ({ block }) => (
   <img
     src={block.src}
-    alt={block.alt || ""}
+    alt={block.alt || ''}
     className="max-w-full h-auto"
     style={block.styles}
   />
@@ -31,13 +31,13 @@ interface Props {
 
 export const BlockRenderer: FC<Props> = ({ block }) => {
   switch (block.type) {
-    case "button":
+    case 'button':
       return <ButtonBlock key={block.id} block={block} />;
-    case "paragraph":
+    case 'paragraph':
       return <ParagraphBlock key={block.id} block={block} />;
-    case "image":
+    case 'image':
       return <ImageBlock key={block.id} block={block} />;
-    case "division":
+    case 'division':
       return (
         <DivisionBlock key={block.id} block={block}>
           {block.children.map((child) => (
@@ -48,4 +48,4 @@ export const BlockRenderer: FC<Props> = ({ block }) => {
     default:
       return null;
   }
-}; 
+};

@@ -1,14 +1,14 @@
-import { useMemo } from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { parse } from 'valibot';
 import { ArrowLeft } from 'lucide-react';
-import { type Page, pageSchema, buildHierarchy } from '../schema';
+import { useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { parse } from 'valibot';
 import { BlockRenderer } from '../components/BlockRenderer';
+import { type Page, buildHierarchy, pageSchema } from '../schema';
 
 export default function Preview() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  
+
   const page = useMemo(() => {
     const savedData = searchParams.get('data');
     if (savedData) {
@@ -24,7 +24,7 @@ export default function Preview() {
 
   const blockTree = useMemo(
     () => buildHierarchy(Object.values(page.blocks)),
-    [page.blocks]
+    [page.blocks],
   );
 
   return (
@@ -39,7 +39,7 @@ export default function Preview() {
         </Link>
         <h1 className="text-2xl font-bold text-gray-800">{page.name}</h1>
       </header>
-      
+
       <main className="flex-1 p-8 bg-gray-50">
         <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-sm">
           {blockTree.length > 0 ? (
@@ -57,4 +57,4 @@ export default function Preview() {
       </main>
     </div>
   );
-} 
+}

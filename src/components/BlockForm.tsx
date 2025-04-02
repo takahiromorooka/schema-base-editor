@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Block, Button, Paragraph, Image } from "../schema";
+import type { FC } from 'react';
+import type { Block, Button, Image, Paragraph } from '../schema';
 
 interface Props {
   block: Block;
@@ -9,8 +9,8 @@ interface Props {
 
 export const BlockForm: FC<Props> = ({ block, onUpdate, onDelete }) => {
   const handleCommonStyleChange = (
-    property: keyof Block["styles"],
-    value: string
+    property: keyof Block['styles'],
+    value: string,
   ) => {
     onUpdate({
       styles: {
@@ -22,7 +22,7 @@ export const BlockForm: FC<Props> = ({ block, onUpdate, onDelete }) => {
 
   const renderSpecificFields = () => {
     switch (block.type) {
-      case "button":
+      case 'button':
         return (
           <>
             <div className="mb-4">
@@ -35,9 +35,11 @@ export const BlockForm: FC<Props> = ({ block, onUpdate, onDelete }) => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium">onClick Script</label>
+              <label className="block text-sm font-medium">
+                onClick Script
+              </label>
               <textarea
-                value={(block as Button).onClick || ""}
+                value={(block as Button).onClick || ''}
                 onChange={(e) => onUpdate({ onClick: e.target.value })}
                 className="w-full p-2 bg-gray-700 border border-gray-600 rounded h-24 font-mono text-sm"
                 placeholder="JavaScript code to run when clicked"
@@ -46,7 +48,7 @@ export const BlockForm: FC<Props> = ({ block, onUpdate, onDelete }) => {
           </>
         );
 
-      case "paragraph":
+      case 'paragraph':
         return (
           <div className="mb-4">
             <label className="block text-sm font-medium">Paragraph Text</label>
@@ -58,7 +60,7 @@ export const BlockForm: FC<Props> = ({ block, onUpdate, onDelete }) => {
           </div>
         );
 
-      case "image":
+      case 'image':
         return (
           <>
             <div className="mb-4">
@@ -74,7 +76,7 @@ export const BlockForm: FC<Props> = ({ block, onUpdate, onDelete }) => {
               <label className="block text-sm font-medium">Alt Text</label>
               <input
                 type="text"
-                value={(block as Image).alt || ""}
+                value={(block as Image).alt || ''}
                 onChange={(e) => onUpdate({ alt: e.target.value })}
                 className="w-full p-2 bg-gray-700 border border-gray-600 rounded"
               />
@@ -101,9 +103,9 @@ export const BlockForm: FC<Props> = ({ block, onUpdate, onDelete }) => {
               <label className="block text-xs">Color</label>
               <input
                 type="color"
-                value={block.styles.color || "#ffffff"}
+                value={block.styles.color || '#ffffff'}
                 onChange={(e) =>
-                  handleCommonStyleChange("color", e.target.value)
+                  handleCommonStyleChange('color', e.target.value)
                 }
                 className="w-full h-8 bg-gray-700 border border-gray-600 rounded"
               />
@@ -112,9 +114,9 @@ export const BlockForm: FC<Props> = ({ block, onUpdate, onDelete }) => {
               <label className="block text-xs">Background</label>
               <input
                 type="color"
-                value={block.styles.backgroundColor || "#000000"}
+                value={block.styles.backgroundColor || '#000000'}
                 onChange={(e) =>
-                  handleCommonStyleChange("backgroundColor", e.target.value)
+                  handleCommonStyleChange('backgroundColor', e.target.value)
                 }
                 className="w-full h-8 bg-gray-700 border border-gray-600 rounded"
               />
@@ -124,9 +126,9 @@ export const BlockForm: FC<Props> = ({ block, onUpdate, onDelete }) => {
             <label className="block text-xs">Font Size</label>
             <input
               type="text"
-              value={block.styles.fontSize || ""}
+              value={block.styles.fontSize || ''}
               onChange={(e) =>
-                handleCommonStyleChange("fontSize", e.target.value)
+                handleCommonStyleChange('fontSize', e.target.value)
               }
               placeholder="e.g. 16px, 1.5rem"
               className="w-full p-1 bg-gray-700 border border-gray-600 rounded text-sm"
@@ -144,4 +146,4 @@ export const BlockForm: FC<Props> = ({ block, onUpdate, onDelete }) => {
       </div>
     </div>
   );
-}; 
+};

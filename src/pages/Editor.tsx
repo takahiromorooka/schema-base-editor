@@ -1,20 +1,20 @@
-import { useState, useEffect, useMemo } from "react";
-import { nanoid } from "nanoid";
-import { parse, safeParse } from "valibot";
-import { Link, useLocation } from "react-router-dom";
-import { Eye, Image, Plus, Type, BoxSelect } from "lucide-react";
+import { BoxSelect, Eye, Image, Plus, Type } from 'lucide-react';
+import { nanoid } from 'nanoid';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { parse, safeParse } from 'valibot';
+import { BlockForm } from '../components/BlockForm';
+import { BlockRenderer } from '../components/BlockRenderer';
 import {
-  type Page,
   type Block,
   type BlockType,
-  pageSchema,
+  type Page,
   blockSchema,
-  newBlock,
   buildHierarchy,
+  newBlock,
+  pageSchema,
   parentableBlockSchema,
-} from "../schema";
-import { BlockForm } from "../components/BlockForm";
-import { BlockRenderer } from "../components/BlockRenderer";
+} from '../schema';
 
 type BlockTreeItem = Block & { children?: BlockTreeItem[] };
 
@@ -23,27 +23,27 @@ export default function Editor() {
   const searchParams = new URLSearchParams(location.search);
 
   const [selectedBlockId, setSelectedBlockId] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [page, setPage] = useState<Page>(() => {
     const savedData = searchParams.get('data');
     if (savedData) {
       return parse(pageSchema, JSON.parse(decodeURIComponent(savedData)));
     }
-    return { name: "New Page", blocks: {} };
+    return { name: 'New Page', blocks: {} };
   });
   console.log(page);
   const queryData = useMemo(
     () => encodeURIComponent(JSON.stringify(page)),
-    [page]
+    [page],
   );
   const blockTree = useMemo(
     () => buildHierarchy(Object.values(page.blocks)),
-    [page.blocks]
+    [page.blocks],
   );
 
   useEffect(() => {
-    window.history.replaceState({}, "", `?data=${queryData}`);
+    window.history.replaceState({}, '', `?data=${queryData}`);
   }, [queryData]);
 
   const addBlock = (type: BlockType, parentId?: string) => {
@@ -52,7 +52,7 @@ export default function Editor() {
       const parentBlock = page.blocks[parentId];
       const isParentable = safeParse(
         parentableBlockSchema,
-        parentBlock
+        parentBlock,
       ).success;
       if (isParentable) {
         validParentId = parentId;
@@ -90,7 +90,7 @@ export default function Editor() {
 
   const renderBlockTree = (blocks: BlockTreeItem[], depth = 0) => {
     return (
-      <ul className={depth > 0 ? "ml-4" : ""}>
+      <ul className={depth > 0 ? 'ml-4' : ''}>
         {blocks.map((block) => (
           <li key={block.id} className="my-1">
             <button
@@ -98,8 +98,8 @@ export default function Editor() {
               onClick={() => setSelectedBlockId(block.id)}
               className={`w-full text-left px-2 py-1 rounded ${
                 selectedBlockId === block.id
-                  ? "bg-gray-600 text-white"
-                  : "hover:bg-gray-700"
+                  ? 'bg-gray-600 text-white'
+                  : 'hover:bg-gray-700'
               }`}
             >
               {block.type} - {block.id.slice(0, 6)}
@@ -130,10 +130,10 @@ export default function Editor() {
             <ul className="space-y-2 mb-6">
               {(
                 [
-                  ["button", Plus],
-                  ["paragraph", Type],
-                  ["image", Image],
-                  ["division", BoxSelect],
+                  ['button', Plus],
+                  ['paragraph', Type],
+                  ['image', Image],
+                  ['division', BoxSelect],
                 ] as const
               ).map(([type, Icon]) => (
                 <li key={type}>
@@ -175,4 +175,4 @@ export default function Editor() {
       </div>
     </div>
   );
-} 
+}
